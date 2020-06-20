@@ -34,6 +34,13 @@ h1 {
     margin: 4px 2px;
     cursor: pointer;
 
+    &:disabled{
+      background-color: #b2c6cc;
+      &:hover {
+        background-color: #b2c6cc;
+      }
+    }
+
     &:focus {
       outline: none;
     }
@@ -41,6 +48,7 @@ h1 {
     &:hover {
       background-color: #36cdf7;
     }
+
     &:active {
       background-color: #19b0da;
     }

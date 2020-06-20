@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useSound from "use-sound";
 
+import ShortCuts from './components/shortcuts/shortcuts.component'
 import logo from "./logo.svg";
 import "./App.scss";
 import { ReactComponent as Play } from "./assets/play.svg";
@@ -16,8 +17,8 @@ import useKeyBoard from "./utils/keyboard.effect";
 const App = () => {
   const [timer, setTimer] = useState(0);
   const [running, setRunning] = useState(false);
-  const [finishing] = useSound(switchOff);
-  const [finished] = useSound(fanfare);
+  const [finishingSound] = useSound(switchOff);
+  const [finishedSound] = useSound(fanfare);
 
   useEffect(() => {
     const timerTick = () => {
@@ -26,10 +27,10 @@ const App = () => {
           setTimer(timer - 1);
         }
         if (timer <= 5 && timer > 1) {
-          finishing();
+          finishingSound();
         }
         if (timer === 1) {
-          finished();
+          finishedSound();
         }
         if (timer === 0) {
           setRunning(false);
@@ -41,11 +42,12 @@ const App = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [timer, running]);
+  }, [timer, running, finishedSound, finishingSound]);
 
   const toggleRunning = () => {
-    setRunning(!running);
-    return running;
+    if (timer > 0) {
+      setRunning(!running);
+    }
   };
 
   const applyTime = (time) => {
@@ -62,9 +64,14 @@ const App = () => {
       <img src={logo} className="App-logo" alt="logo" />
       <h1>{formatTime(timer)}</h1>
       <div className="buttons">
-        <button className={running ? "isRunning" : ""} onClick={toggleRunning}>
+        <button
+          className={running ? "isRunning" : ""}
+          onClick={toggleRunning}
+          disabled={timer === 0}
+        >
           {running ? <Pause /> : <Play />}
         </button>
+        <ShortCuts/>
       </div>
     </div>
   );

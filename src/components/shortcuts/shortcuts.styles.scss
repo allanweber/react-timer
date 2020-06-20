@@ -1,0 +1,55 @@
+.container {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  z-index: 10;
+  opacity: 0.5;
+}
+
+.short-cuts {
+  display: flex;
+  flex-direction: row;
+
+  .direction {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.controllers {
+      margin-top: 15px;
+      flex-direction: row;
+      justify-content: space-around;
+
+      .key {
+        margin: 0;
+        width: 160px;
+      }
+
+      span:first-child {
+        margin-right: 5px;
+    }
+  }
+}
+
+.left {
+  align-self: center;
+}
+
+.up {
+  margin-top: -15px;
+}
+
+.down {
+  margin-top: 5px;
+}
+
+.key {
+  display: inline-block;
+  font-size: 15pt;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.1em 0.5em;
+  margin: 0 5px;
+  min-width: 90px;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #fff;
+}
