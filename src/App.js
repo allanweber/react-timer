@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useSound from "use-sound";
 
-import ShortCuts from './components/shortcuts/shortcuts.component'
+import ShortCuts from "./components/shortcuts/shortcuts.component";
 import logo from "./logo.svg";
 import "./App.scss";
 import { ReactComponent as Play } from "./assets/play.svg";
@@ -62,6 +62,7 @@ const App = () => {
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
+      <ShortCuts />
       <h1>{formatTime(timer)}</h1>
       <div className="buttons">
         <button
@@ -71,7 +72,6 @@ const App = () => {
         >
           {running ? <Pause /> : <Play />}
         </button>
-        <ShortCuts/>
       </div>
     </div>
   );
