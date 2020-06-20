@@ -8,6 +8,9 @@ import { ReactComponent as Pause } from "./assets/pause.svg";
 import switchOff from "./assets/switch-off.mp3";
 import fanfare from "./assets/fanfare.mp3";
 
+import formatTime from './utils/format-time'
+import useKeyPress from './utils/use-key-press.effect'
+
 //Add keyboard supports for space bar, enter, direction, scroll above the number
 
 const App = () => {
@@ -15,6 +18,15 @@ const App = () => {
   const [running, setRunning] = useState(false);
   const [finishing] = useSound(switchOff);
   const [finished] = useSound(fanfare);
+
+  const enterPress = useKeyPress("Enter");
+  const spacePress = useKeyPress(" ");
+
+  useEffect(() => {
+    if (enterPress || spacePress) {
+      toggleRunning();
+    }
+  }, [enterPress, spacePress]);
 
   useEffect(() => {
     const timerTick = () => {
@@ -58,23 +70,15 @@ const App = () => {
     playFinish();
   }, [timer, finished]);
 
-  const formatTimeLeft = () => {
-    const minutes = Math.floor(timer / 60);
-    let seconds = timer % 60;
-    if (seconds < 10) {
-      seconds = `0${seconds}`;
-    }
-    return `${minutes}:${seconds}`;
-  };
-
   const toggleRunning = () => {
     setRunning(!running);
+    return running;
   };
 
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
-      <h1>{formatTimeLeft()}</h1>
+      <h1>{formatTime(timer)}</h1>
       <div className="buttons">
         <button className={running ? "isRunning" : ""} onClick={toggleRunning}>
           {running ? <Pause /> : <Play />}
