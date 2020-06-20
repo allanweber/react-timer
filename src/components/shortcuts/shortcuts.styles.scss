@@ -22,7 +22,7 @@
 
     .key {
       margin: 0;
-      width: 160px;
+      min-width: 130px;
     }
 
     span:first-child {
@@ -45,17 +45,41 @@
 
 .key {
   display: inline-block;
-  font-size: 15pt;
+  font-size: 12pt;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 0.1em 0.5em;
   margin: 0 5px;
-  min-width: 90px;
+  min-width: 80px;
   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #fff;
 }
 
-@media(max-width: 1600px) {
-    .container {
-        position: static;
+@media (max-width: 1600px) {
+  .container {
+    position: static;
+  }
+}
+
+@media (max-width: 300px) {
+  .container {
+    position: static;
+  }
+  .short-cuts {
+    flex-direction: column;
+    &.controllers {
+      flex-direction: column;
+      span:first-child {
+        margin-right: 0;
       }
+    }
+  }
+  .key {
+    margin-top: 5px;
+  }
+  .up {
+    margin-top: 0;
+  }
+  .down {
+    margin-top: 0;
+  }
 }
