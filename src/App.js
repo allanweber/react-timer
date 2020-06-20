@@ -8,25 +8,16 @@ import { ReactComponent as Pause } from "./assets/pause.svg";
 import switchOff from "./assets/switch-off.mp3";
 import fanfare from "./assets/fanfare.mp3";
 
-import formatTime from './utils/format-time'
-import useKeyPress from './utils/use-key-press.effect'
+import formatTime from "./utils/format-time";
+import useKeyBoard from "./utils/keyboard.effect";
 
 //Add keyboard supports for space bar, enter, direction, scroll above the number
 
 const App = () => {
-  const [timer, setTimer] = useState(7);
+  const [timer, setTimer] = useState(0);
   const [running, setRunning] = useState(false);
   const [finishing] = useSound(switchOff);
   const [finished] = useSound(fanfare);
-
-  const enterPress = useKeyPress("Enter");
-  const spacePress = useKeyPress(" ");
-
-  useEffect(() => {
-    if (enterPress || spacePress) {
-      toggleRunning();
-    }
-  }, [enterPress, spacePress]);
 
   useEffect(() => {
     const timerTick = () => {
@@ -34,9 +25,15 @@ const App = () => {
         if (timer > 0) {
           setTimer(timer - 1);
         }
-      }
-      if (timer === 0) {
-        setRunning(false);
+        if (timer <= 5 && timer > 1) {
+          finishing();
+        }
+        if (timer === 1) {
+          finished();
+        }
+        if (timer === 0) {
+          setRunning(false);
+        }
       }
     };
 
@@ -46,34 +43,19 @@ const App = () => {
     };
   }, [timer, running]);
 
-  useEffect(() => {
-    const playFinishing = () => {
-      if (running) {
-        if (timer <= 5 && timer > 1) {
-          finishing();
-        }
-      }
-    };
-
-    const interval = setInterval(playFinishing, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [timer, running, finishing]);
-
-  useEffect(() => {
-    const playFinish = () => {
-      if (timer === 0) {
-        finished();
-      }
-    };
-    playFinish();
-  }, [timer, finished]);
-
   const toggleRunning = () => {
     setRunning(!running);
     return running;
   };
+
+  const applyTime = (time) => {
+    const value = timer + time;
+    if (value >= 0) {
+      setTimer(timer + time);
+    }
+  };
+
+  useKeyBoard(toggleRunning, applyTime);
 
   return (
     <div className="App">
